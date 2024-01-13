@@ -167,3 +167,86 @@ https://en.wikipedia.org/wiki/Device_mapper
 
 
 
+2.1 - BTRFS
+    https://archive.kernel.org/oldwiki/btrfs.wiki.kernel.org/index.php/Main_Page.html
+
+
+    Copy on Write (COW)
+    Read-only and read/write snapshots
+    Sub-volumes
+    Compression and deduplication
+    Multiple device support (pooling and RAID)
+    Eliminates the need of (hardware) raid or volume manager
+    Not very popular (default on SUSE/openSUSE and Fedora) but gaining popularity
+
+2.2 - (Open) ZFS (On Linux)
+    https://zfsonlinux.org/
+
+    Copy on Write (COW)
+    Read-only and read/write snapshots
+    Compression and deduplication
+    Multiple device support (pooling and RAID)
+    Datasets can be file systems, volumes, snapshots or clones
+    Eliminates the need of (hardware) raid or volume manager
+    Relatively popular (supported on multiple platforms)
+
+
+
+3.0 - Additional Techniques - Encryption. Quotas. Automount
+
+3.1 - Quotas
+
+3.1.1 - EXT4
+            Control space usage on user and group level
+            Soft and hard limits on disk space (block) and file (inode) level
+
+3.1.2 - XFS
+            Control space usage on user, group, and project level
+            Soft and hard limits on disk space (block) and file (inode) level
+            Allows for soften the hard limits (to avoid interruptions)
+            Has own xfs_quota tool, but generic ones can be used as well
+
+3.2 - Disk Encryption
+    https://www.redhat.com/sysadmin/disk-encryption-luks    
+
+    Linux Unified Key Setup (LUKS) is a disk encryption solution
+    Uses dm-crypt kernel module for block level encryption
+    A password or a key can be used to open an encrypted device
+    Predictable naming via /etc/crypttab
+    Supported by many tools
+
+
+3.3 - Automounting
+    https://help.ubuntu.com/community/Autofs 
+
+    AutoFS provides automounting of removable media or network shares when they are inserted or accessed
+    Supports multiple devices and filesystems
+    Managed via a set of configuration files
+    Main files are /etc/autofs.conf and /etc/auto.master
+    Auxiliary files /etc/auto.* and /etc/auto.master.d/
+
+
+3.4 - Easier Local Storage Management
+    https://stratis-storage.github.io/  
+
+    Stratis provides ZFS/Btrfs-style features
+    Integrates layers of existing technology – Linux's device mapper subsystem, and the XFS filesystem
+    The stratisd daemon manages collections of block devices, and provides a D-Bus API
+    The stratis-cli provides a command-line tool stratis which itself uses the D-Bus API to communicate with stratisd
+
+3.5 - Compression and Deduplication
+    https://www.redhat.com/en/blog/look-vdo-new-linux-compression-layer
+
+
+    Virtual Data Optimizer (VDO) is the answer
+    Provides a solution for transparent compression and deduplication layer
+    Under filesystems, iSCSI or Ceph
+
+
+3.6 - Secure Remote File Systems
+    https://github.com/libfuse/sshfs 
+
+    SSHFS allows us to mount remote file systems over SSH
+    It is a FUSE-based (Filesystem in Userspace) filesystem client
+    Easy to setup and use
+    Supported by multiple platforms
