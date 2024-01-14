@@ -1,0 +1,176 @@
+Homework M1: Local Storage and Additional Techniques
+
+Proof
+Prepare a document that shows what you accomplished and how you did it. It can include (not limited to):
+    • The commands you used to achieve the above tasks
+    • A few pictures showing intermediary steps or results
+
+1. Create a RAID10-based pool in ZFS out of six devices each 5 GB in size. Do it in two different configurations – 3x2 and 2x3
+   Exercise-1.1
+
+    I am using this command to create a RAID 10 in zfs and I used automount and not a custom point.
+
+    sudo zpool create exercise-1.1 mirror /dev/sdb /dev/sdc mirror /dev/sdd /dev/sde mirror /dev/sdf /dev/sdg
+
+    sudo zpool list
+
+        NAME           SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+        exercise-1.1  13.5G   112K  13.5G        -         -     0%     0%  1.00x    ONLINE  -
+
+    sudo zpool status exercise-1.1
+
+        pool: exercise-1.1
+        state: ONLINE
+        config:
+
+            NAME          STATE     READ WRITE CKSUM
+            exercise-1.1  ONLINE       0     0     0
+            mirror-0    ONLINE       0     0     0
+                sdb       ONLINE       0     0     0
+                sdc       ONLINE       0     0     0
+            mirror-1    ONLINE       0     0     0
+                sdd       ONLINE       0     0     0
+                sde       ONLINE       0     0     0
+            mirror-2    ONLINE       0     0     0
+                sdf       ONLINE       0     0     0
+                sdg       ONLINE       0     0     0
+
+        errors: No known data errors
+
+    df -hT:
+        Filesystem     Type      Size  Used Avail Use% Mounted on
+        devtmpfs       devtmpfs  4.0M  8.0K  4.0M   1% /dev
+        tmpfs          tmpfs     975M  4.0K  975M   1% /dev/shm
+        tmpfs          tmpfs     390M   16M  374M   5% /run
+        tmpfs          tmpfs     4.0M     0  4.0M   0% /sys/fs/cgroup
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /.snapshots
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/i386-pc
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/x86_64-efi
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /home
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /opt
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /root
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /srv
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /tmp
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /usr/local
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /var
+        /dev/sda1      vfat      511M  5.1M  506M   1% /boot/efi
+        tmpfs          tmpfs     195M  8.0K  195M   1% /run/user/1000
+        exercise-1.1   zfs        14G  128K   14G 
+
+
+
+    Exercise - 1.2
+    I am using this command to create a RAID 10 in zfs and I used automount and not a custom point.
+
+    sudo zpool create exercise-1.2 mirror /dev/sdb /dev/sdc /dev/sdd mirror /dev/sde /dev/sdf /dev/sdg
+
+    This is the output:
+
+    sudo zpool list
+
+        NAME           SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+        exercise-1.2     9G   110K  9.00G        -         -     0%     0%  1.00x    ONLINE  -
+
+    sudo zpool status exercise-1.2
+        pool: exercise-1.2
+        state: ONLINE
+        config:
+
+            NAME          STATE     READ WRITE CKSUM
+            exercise-1.2  ONLINE       0     0     0
+            mirror-0    ONLINE       0     0     0
+                sdb       ONLINE       0     0     0
+                sdc       ONLINE       0     0     0
+                sdd       ONLINE       0     0     0
+            mirror-1    ONLINE       0     0     0
+                sde       ONLINE       0     0     0
+                sdf       ONLINE       0     0     0
+                sdg       ONLINE       0     0     0
+
+        errors: No known data errors
+    df -hT
+        Filesystem     Type      Size  Used Avail Use% Mounted on
+        devtmpfs       devtmpfs  4.0M  8.0K  4.0M   1% /dev
+        tmpfs          tmpfs     975M  4.0K  975M   1% /dev/shm
+        tmpfs          tmpfs     390M   16M  374M   5% /run
+        tmpfs          tmpfs     4.0M     0  4.0M   0% /sys/fs/cgroup
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /.snapshots
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/i386-pc
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/x86_64-efi
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /home
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /opt
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /root
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /srv
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /tmp
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /usr/local
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /var
+        /dev/sda1      vfat      511M  5.1M  506M   1% /boot/efi
+        tmpfs          tmpfs     195M  8.0K  195M   1% /run/user/1000
+        exercise-1.2   zfs       8.8G  128K  8.8G   1% /exercise-1.2
+
+
+2. Create a RAID6-based pool in ZFS out of five devices each 5 GB in size
+  
+    Exercise - 2
+    I am using this command to create a RAID 6(RAIDZ2) in zfs and I used automount and not a custom point.
+    sudo zpool create exercise-2 raidz2 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+
+    This is the output:
+
+    sudo zpool list
+
+        NAME         SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+        exercise-2  24.5G   260K  24.5G        -         -     0%     0%  1.00x    ONLINE  -
+
+    sudo zpool status exercise-2
+
+        pool: exercise-2
+        state: ONLINE
+        config:
+
+            NAME        STATE     READ WRITE CKSUM
+            exercise-2  ONLINE       0     0     0
+            raidz2-0  ONLINE       0     0     0
+                sdb     ONLINE       0     0     0
+                sdc     ONLINE       0     0     0
+                sdd     ONLINE       0     0     0
+                sde     ONLINE       0     0     0
+                sdf     ONLINE       0     0     0
+
+        errors: No known data errors
+
+    df -hT
+        Filesystem     Type      Size  Used Avail Use% Mounted on
+        devtmpfs       devtmpfs  4.0M  8.0K  4.0M   1% /dev
+        tmpfs          tmpfs     975M  4.0K  975M   1% /dev/shm
+        tmpfs          tmpfs     390M   16M  374M   5% /run
+        tmpfs          tmpfs     4.0M     0  4.0M   0% /sys/fs/cgroup
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /.snapshots
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/i386-pc
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /boot/grub2/x86_64-efi
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /home
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /opt
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /root
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /srv
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /tmp
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /usr/local
+        /dev/sda2      btrfs      19G  3.1G   15G  17% /var
+        /dev/sda1      vfat      511M  5.1M  506M   1% /boot/efi
+        tmpfs          tmpfs     195M  8.0K  195M   1% /run/user/1000
+        exercise-2     zfs        15G  128K   15G   1% /exercise-2
+
+
+
+        
+3. Research on how to use a key file to automount an encrypted volume on boot and demonstrate it for 
+one drive
+
+Exercise - 3
+
+
+
+
+
