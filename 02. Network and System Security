@@ -1,0 +1,77 @@
+Network and System Security 101
+
+1. Kernel Parameters
+
+    Current State of a Running Linux System
+
+    Available via the procfs virtual filesystem mounted at /proc
+        There are both read-only and writeable items
+        Writable items are in /proc/sys
+        Some of the namespaces are kernel, net, etc.
+        Information can be found via man 5 proc
+
+    Working with Kernel Variables
+
+        Can be read and written via echo and sysctl
+        Persistent configuration is stored in /etc/sysctl.conf or /etc/sysctl
+        To apply part or all configuration changes we can use sysctl -p or sysctl --system
+
+
+2. Resource Limits
+
+    The pam_limits module sets limits on the system resources that can be obtained in a user-session
+    They can be either soft or hard
+    Can be set for user, group, or everyone
+    Include open files, file locks, max number of processes, etc.
+    Controlled via the bash built- in ulimit
+    Persistent configuration is stored in /etc/security/limits.conf and /etc/security/limits.d/ (files are read in alphabetical order)
+
+
+
+3. Access Control Lists
+    File Mode (Standard Permissions)
+        Permissions are read, write, and execute
+        Permissions are for user, group, and others
+        Represented in octal and symbolic notation
+        Everyday tools include ls, stat, chown, chgrp, and chmod
+        Default permissions are configured via umask
+
+    File Mode (Special Permissions)
+        Sticky bit Typically, is set on folders chmod o+t /folder
+        SGID bit Can be set on folders and files chmod g+s /folder
+        SUID bit Usually is set on executable files chmod u+s file.sh
+
+    Access Control Lists
+        Overcome file mode limitations, i.e. single user and single group
+        Utilities installed via package
+        System module loaded during boot process
+        Controlled on filesystem level via options when mounting
+
+
+    Access Control Lists Rules
+        setfacl -m [d:]principal:[principal-name:]rights /path/to/object
+        Rules can be default (set on folder level) or specific
+        Multiple rules can be set simultaneously
+        Principal can be user (u), group (g), or others (o)
+        Rights are set via symbolic notation and can be r, w, x, -
+
+
+    Special Access Control Lists
+
+        NFS ACL
+            nfs4_getfacl / nfs4_setfacl
+            Separate package
+            Implemented by the NFS Server and doesn’t rely on the filesystem
+
+        CIFS ACL
+            getcifsacl / setcifsacl
+            Separate package
+            Easier with winbind
+            Implemented by the Samba Server and doesn’t rely on the filesystem
+
+    DAC vs MAC
+
+
+4. Context-based Security
+5. Linux Audit
+6. Packet Filtering
