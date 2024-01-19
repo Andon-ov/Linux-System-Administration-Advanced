@@ -71,7 +71,171 @@ Network and System Security 101
 
     DAC vs MAC
 
+        Discretionary Access Control (DAC)
+            Basic/standard layer
+            Existing OS level access control
+            Object owners have complete control
+
+        Mandatory Access Control (MAC)
+            Additional layer
+            Object owners are obliged to honor MAC rules
+            Considered after the DAC rules are evaluated
+
+    DAC Solutions
+        https://en.wikipedia.org/wiki/Linux_Security_Modules    
+
+        Security Enhanced Linux (SELinux)
+        Application Armor (AppArmor)
+        Simplified Mandatory Access Control Kernel (SMACK)
+        Tomoyo Linux
+
+        All based on Linux Security Modules (LSM)
 
 4. Context-based Security
+
+    SELinux Introduction
+        https://en.wikipedia.org/wiki/Security-Enhanced_Linux
+
+        Objects
+            Everything on a Linux system
+
+            Processes
+            Users
+            Files
+            Folders
+            Sockets, etc.
+
+        Labels
+        (Security context)
+
+            Attributes of an object and consists of four parts: User : Role : Type : Level
+            Type is known as domain when in context of a process
+
+        Type Enforcement
+
+            The type of a source domain or process must be compatible with the target type
+
+
+    SELinux Modes
+        Disabled
+            SELinux turned off
+            No enhancing
+            Only DAC is working
+
+        Permissive
+            SELinux turned on
+            Policy loaded
+            Not enforcing the policy
+            Logs what would have been denied
+            Labels objects
+
+        Enforcing
+            SELinux turned on
+            Policy loaded
+            Enforcing the policy
+
+    SELinux Facts, Files and Tools
+
+        Main configuration file:
+            /etc/selinux/config
+
+        Main configuration folders:
+            /etc/selinux
+            /usr/share/selinux
+            /var/lib/share/selinux
+
+
+        Default mode:
+            enforcing
+            Available modes:
+            permissive and disabled
+
+        Default policy:
+            target
+            Available policies:
+            minimum and mls
+
+        Context change tool:
+            chcon
+            Context restore tool:
+            restorecon
+
+        Other tools:
+            getenforce, setenforce
+            sestatus, seinfo, semodule
+            sesearch, etc.
+
+    SELinux Booleans
+
+        Simple way to adjust behavior of SELinux
+
+        Values can be read with getsebool and written with setsebool
+
+        Additionally, the semanage command can be user get and set values
+
+        Help can be retrieved with man semanage- boolean
+
+        Can be on | off / 1 | 0 / true | false
+
+
+    SELinux Logs
+
+        auditd != running 
+            /var/log/messages
+            
+        auditd == running
+            /var/log/audit/audit.log
+
+        auditd == running && setroubleshootd == running
+            /var/log/messages
+            /var/log/audit/audit.log
+
+
+    SELinux Additional Tools and Functions
+
+        audit2allow
+            Generates policy allow/dontaudit rules from logs of denied operations
+
+        audit2why
+            Translates audit messages into a description of why the access was denied
+
+        sealert
+            The user interface component to the setroubleshoot system
+
+        Permissive domains
+            Are a way to debug our system without compromising the whole system
+
+
+
+    Application Armor (AppArmor)
+
+    AppArmor Introduction
+        https://en.wikipedia.org/wiki/AppArmor
+
+        Restricts programs'capabilities with per-program profiles
+        Extensible via manually created modules or ones, created in learning mode
+        Works with file paths and it is filesystem agnostic
+        Supported by all major distributions
+
+    AppArmor Files and Tools
+        https://gitlab.com/apparmor/apparmor/-/wikis/home
+
+        Profiles are stored in /etc/apparmor.d
+        Disabled ones are symlinked in /etc/apparmor.d/disable
+
+        Tools are available via apparmor-utils package
+        Extra profiles can be installed via apparmor-profiles-extra
+
+        Some of tools are aa-enforce, aa-status, aa-autodep, etc.
+        There is a second (symlinked) set of tools
+
+
+
 5. Linux Audit
 6. Packet Filtering
+
+
+
+
+
+

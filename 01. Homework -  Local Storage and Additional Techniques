@@ -19,19 +19,19 @@ Prepare a document that shows what you accomplished and how you did it. It can i
 
     sudo zpool status exercise-1.1
 
-        pool: exercise-1.1
-        state: ONLINE
+          pool: exercise-1.1
+         state: ONLINE
         config:
 
             NAME          STATE     READ WRITE CKSUM
             exercise-1.1  ONLINE       0     0     0
-            mirror-0    ONLINE       0     0     0
+            mirror-0      ONLINE       0     0     0
                 sdb       ONLINE       0     0     0
                 sdc       ONLINE       0     0     0
-            mirror-1    ONLINE       0     0     0
+            mirror-1      ONLINE       0     0     0
                 sdd       ONLINE       0     0     0
                 sde       ONLINE       0     0     0
-            mirror-2    ONLINE       0     0     0
+            mirror-2      ONLINE       0     0     0
                 sdf       ONLINE       0     0     0
                 sdg       ONLINE       0     0     0
 
@@ -73,17 +73,17 @@ Prepare a document that shows what you accomplished and how you did it. It can i
         exercise-1.2     9G   110K  9.00G        -         -     0%     0%  1.00x    ONLINE  -
 
     sudo zpool status exercise-1.2
-        pool: exercise-1.2
-        state: ONLINE
+          pool: exercise-1.2
+         state: ONLINE
         config:
 
             NAME          STATE     READ WRITE CKSUM
             exercise-1.2  ONLINE       0     0     0
-            mirror-0    ONLINE       0     0     0
+            mirror-0      ONLINE       0     0     0
                 sdb       ONLINE       0     0     0
                 sdc       ONLINE       0     0     0
                 sdd       ONLINE       0     0     0
-            mirror-1    ONLINE       0     0     0
+            mirror-1      ONLINE       0     0     0
                 sde       ONLINE       0     0     0
                 sdf       ONLINE       0     0     0
                 sdg       ONLINE       0     0     0
@@ -126,13 +126,13 @@ Prepare a document that shows what you accomplished and how you did it. It can i
 
     sudo zpool status exercise-2
 
-        pool: exercise-2
-        state: ONLINE
+          pool: exercise-2
+         state: ONLINE
         config:
 
             NAME        STATE     READ WRITE CKSUM
             exercise-2  ONLINE       0     0     0
-            raidz2-0  ONLINE       0     0     0
+            raidz2-0  ONLINE         0     0     0
                 sdb     ONLINE       0     0     0
                 sdc     ONLINE       0     0     0
                 sdd     ONLINE       0     0     0
