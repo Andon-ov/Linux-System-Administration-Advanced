@@ -232,10 +232,138 @@ Network and System Security 101
 
 
 5. Linux Audit
+    Linux Audit Overview
+    https://wiki.archlinux.org/index.php/Audit_framework
+
+        It is all about who did what and when
+
+        Listens for events reported by the kernel and logs them to a log file
+
+        Allows the tracking of both UID and AUID Can track files and folders access and syscalls
+
+
+
+    Linux Audit Files and Tools
+
+        Processed events are stored in /var/log/audit/audit.log
+        Configuration  information and rules are  stored in  /etc/audit/auditd.conf and /etc/audit/rules.d/
+        Main tools include auditctl, ausearch, etc.
+
 6. Packet Filtering
+    Linux Firewall (Firewalld)
+    https://firewalld.org/documentation/concepts.html
 
 
+    More On Firewalld
+
+        Easy to use solution with wide adoption and support for zones, services, rich rules, etc.
+
+        Separate runtime and permanent configuration
+
+        Main configuration file: 
+            /etc/firewalld/firewalld.conf
+
+        Configuration directories:
+            /etc/firewalld
+            /usr/lib/firewalld
+
+    Netfilter Overview
+        https://www.netfilter.org/index.html
+
+        Packet filtering framework inside the Linux 2.4.x and later kernel
+
+        Set of hooks inside the Linux kernel that allows kernel modules to register callback functions with the network stack
+
+        A registered callback function is then called back for every packet that traverses the respective hook within the network stack
+
+        Enables packet filtering, network address [and port] translation (NA[P]T) and other packet mangling
+
+    Netfilter Terminology
+
+        Each table has a chain
+        Each chain has rules
+        Each rule has a match and target
+        Default rule captures all packets that do not conform any rule
+
+                Tables
+                Chain
+                Rule Match Target
+                Rule Match Target
+                Default Target
 
 
+    Netfilter Tables and Chains
+
+        Tables are collections of chains
+        Chains determine what time in the packet flow it is evaluated
+            PREROUTING (before routing decision)
+            INPUT (delivered to local process)
+            FORWARD (routed, non-local packets)
+            OUTPUT (sent packets, from local processes)
+            POSTROUTING (after routing decision)
+
+                Tables
+                Chain
+                Rule Match Target
+                Rule Match Target
+                ...
+                Default Target
+
+    Netfilter Targets and States
+
+        Matches describe interesting packets
+        Targets
+            ACCEPT (allow packet)
+            REJECT (replies prohibited)
+            DROP (drops, no replies)
+            LOG (record info to file)
+        States are NEW, ESTABLISHED, RELATED
+
+                Tables
+                Chain
+                Rule Match Target
+                Rule Match Target
+                ...
+                Default Target
+
+    Netfilter Default Tables and Chains
+
+        FILTER
+            INPUT
+            FORWARD
+            OUTPUT
+
+        NAT
+            PREROUTING
+            OUTPUT
+            POSTROUTING
+
+        MANGLE
+            PREROUTING
+            INPUT
+            FORWARD
+            OUTPUT
+            POSTROUTING
 
 
+    iptables
+
+        https://www.netfilter.org/projects/iptables/index.html
+
+
+        iptables is the userspace command line program used to configure the Linux 2.4.x and later packet filtering ruleset
+
+        Listing the contents of the packet filter ruleset
+        Adding / removing / modifying rules in  the packet filter  ruleset
+        Listing / zeroing per-rule counters of the packet filter ruleset
+
+    nftables
+    
+        https://wiki.nftables.org/wiki-nftables/index.php/Main_Page
+
+        nftables is the new packet classification framework that replaces the existing {ip,ip6,arp,eb}_tables infrastructure
+        It is available in Linux kernels >= 3.13
+
+        Comes with a new command line utility nft whose syntax is different to iptables
+        It also comes with a compatibility layer that allows to run iptables commands over the new nftables kernel framework
+        Provides generic set infrastructure that allows you to construct mapsand concatenation
